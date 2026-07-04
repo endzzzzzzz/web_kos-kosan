@@ -11,7 +11,9 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.
 # Copy semua file proyek ke server
 COPY . /var/www/html
 
-# Atur izin akses folder storage dan cache biar gak error 500
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Buat folder storage dan bootstrap/cache jika belum ada, lalu set permission-nya
+RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache && \
+    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 80
